@@ -32,3 +32,7 @@ DNA bases and double helix structure
 
 Sequencer working
 
+### Measurement Noise
+
+Thermal noise and chemical noise
+
