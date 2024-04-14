@@ -36,7 +36,7 @@ Sequencer working
 
 Thermal noise and chemical noise
 
-###Simulators
+### Simulators
 
 DNA synthesis cost is significant till date
 
