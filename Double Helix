@@ -1,0 +1,79 @@
+from manim import *
+
+import numpy as np
+
+class ParametricFunctionExample(ThreeDScene):
+  def construct(self):
+
+    def construct(self):
+        ax = {
+        "x_min": 0,
+        "x_max": 15,
+        "x_axis_width": 15,
+        "x_tick_frequency": 1,
+        "x_leftmost_tick": 0,
+        "x_labeled_nums": None,
+        "x_axis_label": None,
+        "y_min": -1,
+        "y_max": 1,
+        "z_min": -1,
+        "z_max": 1,
+        "z_axis_height": 2,
+        "y_axis_height": 2,
+        "y_tick_frequency": 1,
+        "y_bottom_tick": None, # Change if different from y_min
+        "y_labeled_nums": None,
+        "y_axis_label": None,
+        "axes_color": LIGHT_GREY,
+        "graph_origin": 0 * DOWN + 0 * LEFT,
+        "exclude_zero_label": True,
+        "num_graph_anchor_points": 25,
+        "default_graph_colors": GOLD,
+        "default_derivative_color": GREEN,
+        "default_input_color": YELLOW,
+        "default_riemann_start_color": BLUE,
+        "default_riemann_end_color": GREEN,
+        "function_color": WHITE,
+        "area_opacity": 0.8,
+        "num_rects": 50,
+        "light_source": 15 * DOWN + 7 * LEFT + 10 * OUT,
+        "number_line_config": {
+            "include_tip": False,
+        },
+      }
+
+    # Define the parametric function (replace this with your desired function)
+    def func(self,t):
+      x = t * 2
+      y = np.sin(t)
+      z = np.cos(t)
+      
+      if(t%1.0 == 0):
+        line = Line3D(start=np.array[x, 0, 0], end=np.array[x, y, z])
+        self.add(line)
+      
+      return np.array([x, y, z])  # Adjust for 3D if needed (set z to 0 for 2D)
+    
+    def func2(self,t):
+      x = t * 2
+      y = np.sin(t) * -1
+      z = np.cos(t) * -1 
+      
+      if(t%1.0 == 0):
+        line = Line3D(start=np.array[x, 0, 0], end=np.array[x, y, z])
+        self.add(line)
+      
+      return np.array([x, y, z])  # Adjust for 3D if needed (set z to 0 for 2D)
+
+    # Create the parametric function object
+    parametric_curve2 = ParametricFunction(func, t_range=[-25, 25], stroke_width=2)  # Adjust t_range as needed
+    parametric_curve = ParametricFunction(func2, t_range=[-25, 25], stroke_width=2)  # Adjust t_range as needed
+
+    # Add the curve to the scene (optional: set color with .set_color(RED))
+    #self.set_camera_orientation(phi=0 * DEGREES, theta=0 * DEGREES)
+    self.play(Create(parametric_curve), Create(parametric_curve2), run_time=5)
+
+    # Animate (optional)
+    # self.play(Create(parametric_curve))  # Uncomment to create the curve with animation
+
+    #self.wait(4)  # Wait for the scene to display
