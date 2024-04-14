@@ -1,0 +1,15 @@
+from manim import *
+
+class Intro(Scene):
+    def construct(self):
+        # Title
+        title = Text("An Information-Theoretic Approach to \nNanopore Sequencing for DNA Storage", font_size=5, color=WHITE)
+        title.move_to(UP*1.7)  # Move the title slightly higher
+
+        # Subtitle
+        subtitle = Text("Vedant P\tSrihari P\tSiddarth G", font_size=34, color=BLUE).move_to(DOWN*1.7)
+        
+        # Create animations
+        self.play(Write(title), Write(subtitle))
+        self.wait(3)
+        self.play(FadeOut(title), FadeOut(subtitle))
