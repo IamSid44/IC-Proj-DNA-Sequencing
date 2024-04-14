@@ -1,4 +1,4 @@
-# IC-Proj
+# IC-Project
 
 Commit pictures into the images folder for the video
 
