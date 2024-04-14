@@ -36,3 +36,11 @@ Sequencer working
 
 Thermal noise and chemical noise
 
+###Simulators
+
+DNA synthesis cost is significant till date
+
+Category 1 simulators and Category 2 simulators
+
+The Scrappie simulator
+
