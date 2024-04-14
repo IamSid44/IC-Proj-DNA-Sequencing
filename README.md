@@ -16,6 +16,8 @@ Basecalling algorithm - https://nanoporetech.com/platform/technology/basecalling
 
 ## Work
 
+Animation sequence planning : https://docs.google.com/document/d/1hpQ1HtdAviij5DMr7JXYTET3zxOWfqobw9dWNi64hcQ/edit
+
 ### Intro
 
 What is DNA storage? How is it different from human DNA?
