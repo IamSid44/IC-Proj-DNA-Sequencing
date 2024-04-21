@@ -15,8 +15,9 @@ Nanopore Sequencer - https://nanoporetech.com/platform/technology
 Basecalling algorithm - https://nanoporetech.com/platform/technology/basecalling
 
 ## Work
+Theoretical stuff : https://docs.google.com/document/d/1hpQ1HtdAviij5DMr7JXYTET3zxOWfqobw9dWNi64hcQ/edit
 
-Animation sequence planning : https://docs.google.com/document/d/1hpQ1HtdAviij5DMr7JXYTET3zxOWfqobw9dWNi64hcQ/edit
+Animation sequence planner: https://docs.google.com/document/d/1XfPkZZHSVuWBN_-ea7lBhOkbM1siDGs7O6hUCiwjZ4E/edit?usp=sharing
 
 ### Intro
 
