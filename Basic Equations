@@ -1,0 +1,15 @@
+from manim import *
+
+
+class Stationarity(Scene):
+    def construct(self):
+
+        equation1 = MathTex(r"\Delta_{\mu}(\tau) = {\underset{b_{\ell-\tau+1}^{\ell}}{max} \, SD[\mu_{\ell}|b_{\ell-\tau+1}^{\ell}]}")
+        equation1.set_scale(2)
+        self.play(Write(equation1))
+       
+        equation2 = MathTex(r"\Delta_{\sigma}(\tau) = {\underset{b_{\ell-\tau+1}^{\ell}}{max} \, SD[\sigma_{\ell}|b_{\ell-\tau+1}^{\ell}]}")
+        equation2.set_scale(2)
+        equation2.next_to(equation1, DOWN)
+        self.play(Write(equation2))
+        self.wait(3)
