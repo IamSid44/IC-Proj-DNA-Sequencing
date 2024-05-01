@@ -1,0 +1,48 @@
+from manim import *
+
+class RectangleToCircles(Scene):
+  def construct(self):
+    # Create a rectangle
+    rect = Rectangle(width=4, height=1.5, color=BLUE)
+
+    # Define circle radius based on rectangle size
+    radius = min(rect.width, rect.height)
+
+    # Create four circles with appropriate positioning
+    circle1 = Circle(radius=radius, color=RED).move_to(LEFT * 3.5 + UP * 2.2)
+    circle2 = Circle(radius=radius, color=WHITE).move_to(UP * 2.2)
+    circle3 = Circle(radius=radius, color=GREEN).move_to(RIGHT * 3.5 + UP * 2.2)
+    circle4 = Circle(radius=radius, color=YELLOW).move_to(LEFT * 3.5 + DOWN * 2.2)
+    circle5 = Circle(radius=radius, color=MAROON).move_to(DOWN * 2.2)
+    circle6 = Circle(radius=radius, color=BLUE).move_to(RIGHT * 3.5 + DOWN * 2.2)
+
+    text1 = Text("Encoding", font_size=28, color=WHITE).move_to(circle1.get_center())
+    text2 = Text("Synthesis", font_size=28, color=WHITE).move_to(circle2.get_center())
+    text3 = Text("Storage", font_size=28, color=WHITE).move_to(circle3.get_center())
+    text4 = Text("PCR", font_size=28, color=WHITE).move_to(circle4.get_center())
+    text5 = Text("Sequencing", font_size=28, color=WHITE).move_to(circle5.get_center())
+    text6 = Text("Decoding", font_size=28, color=WHITE).move_to(circle6.get_center())
+
+    # Create VGroups for circles and text combinations
+    circle_text_group1 = VGroup(circle1, text1)
+    circle_text_group2 = VGroup(circle2, text2)
+    circle_text_group3 = VGroup(circle3, text3)
+    circle_text_group4 = VGroup(circle4, text4)
+    circle_text_group5 = VGroup(circle5, text5)
+    circle_text_group6 = VGroup(circle6, text6)
+
+    main = VGroup(circle_text_group1, circle_text_group2, circle_text_group3, circle_text_group4, circle_text_group5, circle_text_group6)
+
+    # Create text object
+    text = Text("Sequencer", font_size=48, color=WHITE)
+
+    # Create a VGroup to group both objects
+    text_in_rect = VGroup(rect, text)
+
+    # Animate the transformation
+    self.play(Create(main), run_time=5)
+    self.wait(1)
+    self.play(FadeOut(circle_text_group1, circle_text_group2, circle_text_group3, circle_text_group4, circle_text_group6))
+    self.play(circle_text_group5.animate.scale(2).move_to(ORIGIN))
+    # Optionally, add a wait at the end
+    self.wait(1)
