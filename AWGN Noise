@@ -1,0 +1,85 @@
+from manim import *
+import numpy as np
+
+class GaussianDistribution(Scene):
+    def construct(self):
+        # Define the mean and standard deviation
+        mu = 0
+        sigma = 1
+
+        # Function for the Gaussian PDF
+        def pdf(x):
+            return (1 / (np.sqrt(2 * np.pi * sigma**2))) * np.exp(-((x - mu) ** 2) / (2 * sigma**2))
+
+        # Create a curve representing the Gaussian distribution
+        curve = ParametricFunction(
+            lambda t: np.array([
+                t,
+                pdf(t),
+                0
+            ]), color=BLUE, t_range=[mu - 3 * sigma, mu + 3 * sigma]
+        )
+
+        axes = Axes(
+            x_range=[mu - 3 * sigma, mu + 3 * sigma, 1],
+            y_range=[0, 0.5, 0.1],
+            axis_config={'tip_shape': StealthTip, 'include_tip': True},
+            # x_axis_config={"label": "$x$", "include_numbers": True},
+            # y_axis_config={"label": "$f(x)$", "include_numbers": True}
+        )
+        
+
+        # Animation for the axes plot
+        x_axis = axes.get_x_axis()
+        y_axis = axes.get_y_axis()
+
+        labels = axes.get_axis_labels(
+            MathTex(r"N_{t}").scale(1), MathTex(r"\mathcal{N}(0,\sigma^{2})").scale(1)
+        )
+
+        # another way of adding label to axis
+        # x_label = Tex("$x$").next_to(axes.x_axis, RIGHT)
+        # y_label = Tex("$f(x)$").next_to(axes.y_axis, UP)
+
+        # Set x-axis numbers
+        axes.x_axis.add_numbers()
+        # Set y-axis numbers
+        axes.y_axis.add_numbers()
+        
+        curve.scale(axes.x_axis.width / (2 * 3 * sigma))
+
+        curve.move_to(axes.c2p(mu, 0.18))
+        
+        # stretch the curve along y-axis keeps x-axis constant
+        curve.stretch(5, 1)
+
+        # # Add all elements to the scene
+        self.play(Write(x_axis,run_time=1.5), Write(y_axis, run_time=1.5))
+        self.play(Write(labels))
+        self.play(Create(curve,run_time=1.5))
+
+        # this feels more better than the above
+        # self.play(
+        #     Write(x_axis, run_time=2),
+        #     Write(y_axis, run_time=2),
+        #     Write(labels),
+        #     Create(curve, run_time=2)
+        # )
+        self.wait(1)
+
+        plot_group = VGroup(axes, labels , x_axis, y_axis, curve)
+        self.play(
+            plot_group.animate.scale(0.8).to_corner(DOWN+LEFT)
+        )
+
+        # title to the graph
+        top_text = Text("Gaussian Distribution").to_corner(UP + LEFT)
+        self.play(Write(top_text))
+
+        # equation animation
+        equation = MathTex(r"f(x) = \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}").move_to(plot_group.get_corner(UP + RIGHT)).shift(DOWN*1).scale(1)
+        self.play(Write(equation))
+
+# Create the scene object and play it
+        # scene = GaussianDistribution()
+        # scene.render()
