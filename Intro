@@ -3,13 +3,31 @@ from manim import *
 class Intro(Scene):
     def construct(self):
         # Title
-        title = Text("An Information-Theoretic Approach to \nNanopore Sequencing for DNA Storage", font_size=5, color=WHITE)
+        title = Text("An Information-Theoretic Approach to \nNanopore Sequencing for DNA Storage", font_size=45, color=WHITE)
         title.move_to(UP*1.7)  # Move the title slightly higher
 
         # Subtitle
-        subtitle = Text("Vedant P\tSrihari P\tSiddarth G", font_size=34, color=BLUE).move_to(DOWN*1.7)
-        
+        subtitle1 = Text("Siddarth Gottumukkula", font_size=34, color=BLUE)
+        subtitle2 = Text("Srihari Padmanabhan", font_size=34, color=BLUE)
+        subtitle3 = Text("Vedant Pahariya", font_size=34, color=BLUE)        
+        subtitle = VGroup(subtitle1, subtitle2, subtitle3)
+        subtitle.arrange(DOWN, center=True)
+        subtitle.move_to(DOWN * 1.7)
+
         # Create animations
         self.play(Write(title), Write(subtitle))
         self.wait(3)
         self.play(FadeOut(title), FadeOut(subtitle))
+
+        # Quote
+        Quote1 = Tex("Why cannot we write the entire 24 volumes of the Encyclopedia Britannica on the head of a pin?", font_size = 35, color = GREEN)
+        Quote2 = Tex("Nature uses only the longest threads to weave her patterns, so that each small piece of her fabric reveals the organization of the entire tapestry", font_size = 35, color = BLUE)
+    
+        author = Text("- Richard P Feynman", font_size = 25, color = WHITE)
+        
+        Group = VGroup(Quote1, Quote2, author)
+        Group.arrange(DOWN*1.1, center=True)
+
+        self.play(Write(Group), run_time = 5)
+        self.wait(10)
+        self.play(FadeOut(Group))
