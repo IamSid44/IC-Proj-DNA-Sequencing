@@ -1,0 +1,20 @@
+from manim import *
+
+class BarGraph(Scene):
+    def construct(self):
+        values = [1]
+        bar_names = ["2012"]
+        chart = BarChart(values, bar_names, x_length = 10, y_length = 7, y_range = [0, 5, 1])
+        c_bar_lbls = chart.get_bar_labels(font_size=25)
+
+        self.play(Write(chart), Write(c_bar_lbls))
+
+        values2 = [1, 200]
+        bar_names2 = ["2012", "2018"]
+        chart2 = BarChart(values2, bar_names2, x_length = 10, y_length = 7, y_range = [0, 240, 20])
+        c_bar_lbls2 = chart2.get_bar_labels(font_size=25)
+        
+        self.play(ReplacementTransform(chart, chart2), ReplacementTransform(c_bar_lbls, c_bar_lbls2))
+        self.wait(5)
+
+        self.play(FadeOut(chart2), FadeOut(c_bar_lbls2))
