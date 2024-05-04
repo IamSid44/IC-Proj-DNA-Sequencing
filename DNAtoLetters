@@ -1,0 +1,124 @@
+from manim import*
+
+class DNAtoLetters(ThreeDScene):
+    def construct(self):
+        curve1 = ParametricFunction(
+            lambda u: np.array([
+                u * 1,
+                1.2 * np.cos(u),
+                1.2 * np.sin(u)
+            ]), color=PURPLE, t_range = np.array([-3*TAU, 5*TAU, 0.01])
+        ).set_shade_in_3d(True)
+
+        curve2 = ParametricFunction(
+            lambda u: np.array([
+                u * 1,
+                1.2 * np.cos(u) * -1,
+                1.2 * np.sin(u) * -1
+            ]), color=PURPLE, t_range = np.array([-3*TAU, 5*TAU, 0.01])
+        ).set_shade_in_3d(True)
+        axes=ThreeDAxes()
+
+        self.play(Create(curve1), Create(curve2))
+
+        lines = VGroup()
+
+        for u in range(-8, 8):
+            if(u % 4 == 0):
+                l = Line([u * 1, 1.2 * np.cos(u), 1.2 * np.sin(u)], [u * 1, -1.2 * np.cos(u), -1.2 * np.sin(u)], color=RED)
+            if(u % 4 == 1):
+                l = Line([u * 1, 1.2 * np.cos(u), 1.2 * np.sin(u)], [u * 1, -1.2 * np.cos(u), -1.2 * np.sin(u)], color=BLUE)
+            if(u % 4 == 2):
+                l = Line([u * 1, 1.2 * np.cos(u), 1.2 * np.sin(u)], [u * 1, -1.2 * np.cos(u), -1.2 * np.sin(u)], color=GREEN)
+            if(u % 4 == 3):
+                l = Line([u * 1, 1.2 * np.cos(u), 1.2 * np.sin(u)], [u * 1, -1.2 * np.cos(u), -1.2 * np.sin(u)], color=YELLOW)
+            lines.add(l)
+            self.add(l)
+
+        self.set_camera_orientation(phi=0 * DEGREES)
+        self.begin_ambient_camera_rotation(rate = 0.6, about="phi")
+
+        self.wait(4)
+
+        self.begin_ambient_camera_rotation(rate = -0.6, about="phi")
+        self.set_camera_orientation(phi=0 * DEGREES)
+        self.wait(1)
+
+        L = VGroup()
+        
+
+        for mobject in lines:
+            
+            if(mobject.get_color() == RED):
+                
+                letter = Text("A", font_size=48, color=RED)  
+                letter.move_to(mobject.get_center()) 
+                self.add_fixed_in_frame_mobjects(letter)
+                self.play(FadeOut(mobject,run_time=0.3), FadeIn(letter,run_time=0.3))
+
+            if(mobject.get_color() == BLUE):
+               
+                letter = Text("G", font_size=48, color=BLUE)  
+                letter.move_to(mobject.get_center())  
+                self.add_fixed_in_frame_mobjects(letter)
+                self.play(FadeOut(mobject,run_time = 0.3), FadeIn(letter, run_time = 0.3))
+                
+
+            if(mobject.get_color() == GREEN):
+                
+                letter = Text("C", font_size=48, color=GREEN)  
+                letter.move_to(mobject.get_center())  
+                self.add_fixed_in_frame_mobjects(letter)
+                self.play(FadeOut(mobject, run_time = 0.3), FadeIn(letter, run_time = 0.3))
+
+
+            if(mobject.get_color() == YELLOW):
+                
+                letter = Text("T", font_size=48, color=YELLOW)  
+                letter.move_to(mobject.get_center())  
+                self.add_fixed_in_frame_mobjects(letter)
+                self.play(FadeOut(mobject, run_time = 0.3), FadeIn(letter, run_time = 0.3))
+
+            L.add(letter)
+
+        self.wait(3)
+
+        newGroup = VGroup(L,curve1,curve2)
+
+        Ade_Image = ImageMobject("Adenine.png").scale_to_fit_height(2.5)
+        Thy_Image = ImageMobject("Thymine.png").scale_to_fit_height(2.5)
+        Gua_Image = ImageMobject("Guanine.png").scale_to_fit_height(2.5)
+        Cyt_Image = ImageMobject("Cytosine.png").scale_to_fit_height(2.5)
+
+        # Labels for the images
+        Ade = Text("Adenine", font_size=24)
+        Thy = Text("Thymine", font_size=24)
+        Gua = Text("Guanine", font_size=24)
+        Cyt = Text("Cytosine", font_size=24)
+
+        # Position the images in the corners
+        Ade_Image.to_corner(UP+ LEFT*3)
+        Thy_Image.to_corner(DOWN*2.5 + LEFT*3)
+        Gua_Image.to_corner(UP + RIGHT*3)
+        Cyt_Image.to_corner(DOWN*2.5 + RIGHT*3)
+
+        # Position the labels under each image
+        Ade.next_to(Ade_Image, DOWN, buff=0.5)
+        Thy.next_to(Thy_Image, DOWN, buff=0.5)
+        Gua.next_to(Gua_Image, DOWN, buff=0.5)
+        Cyt.next_to(Cyt_Image, DOWN, buff=0.5)
+
+        # Group each image with its label
+        Ad = Group(Ade,Ade_Image)
+        Th = Group(Gua,Gua_Image)
+        Gu = Group(Thy,Thy_Image)
+        Cy = Group(Cyt,Cyt_Image)
+
+        imgGroup = Group(Ad,Th,Gu,Cy) 
+        self.play(FadeOut(newGroup), FadeIn(imgGroup))     
+
+        self.wait(3)
+        
+
+        
+        
