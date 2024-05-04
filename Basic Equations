@@ -3,6 +3,16 @@ from manim import *
 
 class Stationarity(Scene):
     def construct(self):
+        
+        myText = Text("Stationarity")
+        myText.color=YELLOW
+        myText.font=50
+        self.play(Create(myText))
+        self.wait(1)
+        myText.generate_target()
+        myText.target.move_to(UP*2)
+        self.play(MoveToTarget(myText))
+        #self.play(myText.animate(run_time=2, shift=UP * 2))
 
         equation1 = MathTex(r"\Delta_{\mu}(\tau) = {\underset{b_{\ell-\tau+1}^{\ell}}{max} \, SD[\mu_{\ell}|b_{\ell-\tau+1}^{\ell}]}")
         equation1.set_scale(2)
@@ -12,4 +22,4 @@ class Stationarity(Scene):
         equation2.set_scale(2)
         equation2.next_to(equation1, DOWN)
         self.play(Write(equation2))
-        self.wait(3)
+        self.wait(10)
