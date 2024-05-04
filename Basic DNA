@@ -7,7 +7,7 @@ class ThreeDParametricSpring(ThreeDScene):
                 u * 1,
                 1.2 * np.cos(u),
                 1.2 * np.sin(u)
-            ]), color=RED, t_range = np.array([-3*TAU, 5*TAU, 0.01])
+            ]), color=WHITE, t_range = np.array([-3*TAU, 5*TAU, 0.01])
         ).set_shade_in_3d(True)
 
         curve2 = ParametricFunction(
@@ -15,14 +15,21 @@ class ThreeDParametricSpring(ThreeDScene):
                 u * 1,
                 1.2 * np.cos(u) * -1,
                 1.2 * np.sin(u) * -1
-            ]), color=GREEN, t_range = np.array([-3*TAU, 5*TAU, 0.01])
+            ]), color=WHITE, t_range = np.array([-3*TAU, 5*TAU, 0.01])
         ).set_shade_in_3d(True)
         axes=ThreeDAxes()
 
         self.play(Create(curve1), Create(curve2))
 
         for u in range(-100, 100):
-            l = Line([u * 1, 1.2 * np.cos(u), 1.2 * np.sin(u)], [u * 1, -1.2 * np.cos(u), -1.2 * np.sin(u)])
+            if(u % 4 == 0):
+                l = Line([u * 1, 1.2 * np.cos(u), 1.2 * np.sin(u)], [u * 1, -1.2 * np.cos(u), -1.2 * np.sin(u)], color=RED)
+            if(u % 4 == 1):
+                l = Line([u * 1, 1.2 * np.cos(u), 1.2 * np.sin(u)], [u * 1, -1.2 * np.cos(u), -1.2 * np.sin(u)], color=BLUE)
+            if(u % 4 == 2):
+                l = Line([u * 1, 1.2 * np.cos(u), 1.2 * np.sin(u)], [u * 1, -1.2 * np.cos(u), -1.2 * np.sin(u)], color=GREEN)
+            if(u % 4 == 3):
+                l = Line([u * 1, 1.2 * np.cos(u), 1.2 * np.sin(u)], [u * 1, -1.2 * np.cos(u), -1.2 * np.sin(u)], color=WHITE)
             self.add(l)
 
         self.set_camera_orientation(phi=0 * DEGREES)
