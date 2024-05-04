@@ -1,0 +1,32 @@
+from manim import *
+
+class BaseState(Scene):
+    def construct(self):
+        # Define the equation with better formatting for readability
+        equation = MathTex(r"\{B_n\}_{n=1}^{m+\tau+1} =", r"\{A,T,G,C,A,\dotsb\}")  # Added ellipsis for continuation
+
+        # Scale and position the equation
+        equation.set_scale(2)
+        equation.to_edge(UP)
+
+        # Animate together: Write equation, then indicate and transform subtex
+        self.play(Write(equation))
+        self.wait(1)
+
+        self.play(Indicate(equation[1][1:4]))
+
+        # Get the desired subtext directly during creation (avoiding extra copy)
+        subtex = equation[1][1:4].copy()
+        subtex.generate_target()
+        subtex.target.next_to(equation, DOWN)
+        self.play(MoveToTarget(subtex))
+
+        text1 = Tex(r"$S_1$ = \{").next_to(subtex, LEFT)
+        text2 = Tex(r"\}").next_to(subtex, RIGHT)
+
+        self.play(Create(text1))
+        self.play(Create(text2))
+
+        # FILL THE REST
+
+        self.wait(1)
