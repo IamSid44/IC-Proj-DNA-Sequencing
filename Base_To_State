@@ -3,7 +3,7 @@ from manim import *
 class BaseState(Scene):
     def construct(self):
         # Define the equation with better formatting for readability
-        equation = MathTex(r"\{B_n\}_{n=1}^{m+\tau+1} =", r"\{A,T,G,C,A,\dotsb\}")  # Added ellipsis for continuation
+        equation = MathTex(r"\{B_n\}_{n=1}^{m+\tau+1} =", r"\{A,T,G,C,A,G,...\}")  # Added ellipsis for continuation
 
         # Scale and position the equation
         equation.set_scale(2)
@@ -21,12 +21,38 @@ class BaseState(Scene):
         subtex.target.next_to(equation, DOWN)
         self.play(MoveToTarget(subtex))
 
-        text1 = Tex(r"$S_1$ = \{").next_to(subtex, LEFT)
+        text1 = Tex(r"$S_1$ = ", r"\{").next_to(subtex, LEFT)
         text2 = Tex(r"\}").next_to(subtex, RIGHT)
 
-        self.play(Create(text1))
-        self.play(Create(text2))
+        self.play(Create(text1[0]))
+        self.play(Create(text1[1]), Create(text2))
 
-        # FILL THE REST
+        self.play(Indicate(equation[1][3:6]))
 
+        subtex2 = equation[1][3:6].copy()
+        subtex2.generate_target()
+        subtex2.target.next_to(subtex, DOWN)
+        self.play(MoveToTarget(subtex2))
+
+        text3 = Tex(r"$S_2$ =", r" \{").next_to(subtex2, LEFT)
+        text4 = Tex(r"\}").next_to(subtex2, RIGHT)
+
+        self.play(Create(text3[0]))
+        self.play(Create(text3[1]), Create(text4))
+
+        self.play(Indicate(equation[1][5:8]))
+
+        subtex3 = equation[1][5:8].copy()
+        subtex3.generate_target()
+        subtex3.target.next_to(subtex2, DOWN)
+        self.play(MoveToTarget(subtex3))
+
+        text5 = Tex(r"$S_3$ = ", r"\{").next_to(subtex3, LEFT)
+        text6 = Tex(r"\} ... ").next_to(subtex3, RIGHT)
+
+        self.play(Create(text5[0]))
+        self.play(Create(text5[1]), Create(text6))
+
+        Group = VGroup(subtex, subtex2, subtex3, equation, text1, text2, text3, text4, text5, text6)
+        self.play(Group.animate.scale(1.5).move_to(ORIGIN))
         self.wait(1)
