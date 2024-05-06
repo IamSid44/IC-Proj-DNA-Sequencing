@@ -1,0 +1,20 @@
+from manim import*
+
+class HighlightQuestion(Scene):
+    def construct(self):
+
+        ques = Tex("What actually is DNA Storage ","?").scale(1.5)
+        ques[1].set_color(RED).scale(2.2)
+        ques.move_to(ORIGIN)
+
+        self.play(Write(ques), run_time=1)
+        # self.play(Indicate(ques[1]))
+        self.play(
+            # Indicate(ques[1]),
+            Wiggle(ques[1])
+        )
+
+        self.play(ques.animate.scale(0.6).to_corner(UL), run_time=1)
+        # ques.scale(0.6)
+
+        self.wait(2)
