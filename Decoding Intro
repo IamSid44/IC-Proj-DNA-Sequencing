@@ -1,0 +1,253 @@
+from manim import *
+import numpy as np
+
+class GradientTextTransformation(Scene):
+    def construct(self):
+        # Initial DNA sequence text
+        initial_dna = Text("ATGCATGGGCTATC", font_size = 72)
+
+        initial_dna[0].set_color(RED)
+        initial_dna[1].set_color(YELLOW)
+        initial_dna[2].set_color(GREEN)
+        initial_dna[3].set_color(BLUE)
+        initial_dna[4].set_color(RED)
+        initial_dna[5].set_color(YELLOW)
+        initial_dna[6].set_color(GREEN)
+        initial_dna[7].set_color(GREEN)
+        initial_dna[8].set_color(GREEN)
+        initial_dna[9].set_color(BLUE)
+        initial_dna[10].set_color(YELLOW)
+        initial_dna[11].set_color(RED)
+        initial_dna[12].set_color(YELLOW)
+        initial_dna[13].set_color(BLUE)
+        
+
+        self.add(initial_dna)
+
+        # Wait for a moment to see the initial text
+        self.wait(1)
+
+        # Create the intermediate encoded text with a gradient
+        gradient_colors = [RED, BLUE]
+        intermediate_text = Text(
+            "hTe eDcdoign Prbolme",
+            font_size=72,
+            gradient=gradient_colors,
+        )
+
+        # Transform the initial DNA to the intermediate encoded text
+        self.play(ReplacementTransform(initial_dna, intermediate_text))
+
+        # Wait to see the intermediate text
+        self.wait(1)
+
+        # Create the final decoded text with a gradient
+        final_text = Text(
+            "The Decoding Problem",
+            font_size=72,
+            gradient=[PURPLE, GREEN],
+        )
+
+        self.play(ReplacementTransform(intermediate_text, final_text))
+
+        # Wait to see the final result
+        self.wait(2)
+
+        self.play(FadeOut(final_text), run_time = 1)
+
+        axes = Axes(
+            x_range=[0, 5, 1],  # [min, max, step]
+            y_range=[0, 5, 1],
+            axis_config={"color": BLUE},  # Color of axes
+            x_axis_config = {"include_ticks" : False},
+            y_axis_config = {"include_ticks" : False}
+        
+        )
+        
+        # Add axis labels
+        x_label = axes.get_x_axis_label("States", edge=RIGHT, direction=DOWN)
+        y_label = axes.get_y_axis_label("Current\ Levels", edge=UP, direction=LEFT)
+        y_label.shift(UP*0.5)
+        x_label.shift(DOWN*0.3)
+
+        
+        self.play(Create(axes), run_time = 3)
+        self.play(Write(x_label),Write(y_label))
+
+
+        start_p1 = LEFT*6
+        end_p1 = start_p1 + (RIGHT*2)
+
+        start_p2 = end_p1
+        end_p2 = start_p2 + (UP*2)
+
+        start_p3 = end_p2
+        end_p3 = start_p3 + (RIGHT*1)
+
+        start_p4 = end_p3
+        end_p4 = start_p4 + (DOWN*3)
+
+        start_p5 = end_p4
+        end_p5 = start_p5 + (RIGHT*5)
+
+        start_p6 = end_p5
+        end_p6 = start_p6 + (DOWN*1)
+
+        start_p7 = end_p6
+        end_p7 = start_p7 + (RIGHT*3)
+
+       
+        line1 = Line(start_p1, end_p1, stroke_width = 2)
+        line2 = Line(start_p2, end_p2, stroke_width = 2)
+        line3 = Line(start_p3, end_p3, stroke_width = 2)
+        line4 = Line(start_p4, end_p4, stroke_width = 2)
+        line5 = Line(start_p5, end_p5, stroke_width = 2)
+        line6 = Line(start_p6, end_p6, stroke_width = 2)
+        line7 = Line(start_p7, end_p7, stroke_width = 2)
+
+       
+        self.play(Create(line1), run_time = 0.3)
+        self.play(Create(line2), run_time = 0.3)
+        self.play(Create(line3), run_time = 0.3)
+        self.play(Create(line4), run_time = 0.3)
+        self.play(Create(line5), run_time = 0.3)
+        self.play(Create(line6), run_time = 0.3)
+        self.play(Create(line7), run_time = 0.3)
+
+        dotted_line1 = DashedLine(
+                end = LEFT*5 + DOWN*3,
+                start = LEFT*5 + UP*2,
+                dash_length=0.1,  # Length of individual dashes
+                dashed_ratio=0.5,  # Ratio of dash to space
+                stroke_width=5,  # Line thickness
+                color=RED,  # Line color
+            )
+
+        dotted_line2 = DashedLine(
+                end = LEFT*1 + DOWN*3,
+                start = LEFT*1 + UP*2,
+                dash_length=0.1,  # Length of individual dashes
+                dashed_ratio=0.5,  # Ratio of dash to space
+                stroke_width=5,  # Line thickness
+                color=RED,  # Line color
+            )
+        
+        dotted_line3 = DashedLine(
+                end = RIGHT*3 + DOWN*3,
+                start = RIGHT*3 + UP*2,
+                dash_length=0.1,  # Length of individual dashes
+                dashed_ratio=0.5,  # Ratio of dash to space
+                stroke_width=5,  # Line thickness
+                color=RED,  # Line color
+            )
+
+        dotted_line3 = DashedLine(
+                end = RIGHT*4 + DOWN*3,
+                start = RIGHT*4 + UP*2,
+                dash_length=0.1,  # Length of individual dashes
+                dashed_ratio=0.5,  # Ratio of dash to space
+                stroke_width=5,  # Line thickness
+                color=RED,  # Line color
+            )
+        
+        self.play(Create(dotted_line1))
+        self.play(Create(dotted_line2))
+        self.play(Create(dotted_line3))
+
+        title_text = Tex("One Global Segmentation", color = YELLOW, font_size = 55)
+        title_text.move_to(UP*2.75)
+
+        self.play(Write(title_text))
+            
+        self.wait(1)
+
+        rectangle1 = Rectangle(width=1, height = 5, color=BLUE)
+        rectangle2 = Rectangle(width=4, height = 5, color = RED)
+        rectangle3 = Rectangle(width=5, height = 5, color = GREEN)
+        rectangle4 = Rectangle(width=1, height = 5, color = YELLOW)
+
+        new_rect1 = Rectangle(width=2, height = 5, color=BLUE)
+        new_rect2 = Rectangle(width=1, height = 5, color = RED)
+        new_rect3 = Rectangle(width=5, height = 5, color = GREEN)
+        new_rect4 = Rectangle(width=3, height = 5, color = YELLOW)
+
+        rectangle1.move_to(LEFT*5.5 + DOWN*0.5)
+        rectangle2.move_to(LEFT*3 + DOWN*0.5)
+        rectangle3.move_to(RIGHT*1.5 + DOWN*0.5)
+        rectangle4.move_to(RIGHT*4.5 + DOWN*0.5)
+
+        new_rect1.move_to(LEFT*5+DOWN*0.5)
+        new_rect2.move_to(LEFT*3.5+DOWN*0.5)
+        new_rect3.move_to(LEFT*0.5 + DOWN*0.5)
+        new_rect4.move_to(RIGHT*3.5 + DOWN*0.5)
+
+        self.play(Create(rectangle1))
+        self.play(Create(rectangle2))
+        self.play(Create(rectangle3))
+        self.play(Create(rectangle4))
+
+        self.wait(1)
+
+        self.play(ReplacementTransform(rectangle1,new_rect1), dotted_line1.animate.move_to(LEFT*4 + DOWN*0.5))
+        self.play(ReplacementTransform(rectangle2,new_rect2), dotted_line2.animate.move_to(LEFT*3 + DOWN*0.5))
+        self.play(ReplacementTransform(rectangle3,new_rect3))
+        self.play(ReplacementTransform(rectangle4,new_rect4), dotted_line3.animate.move_to(RIGHT*2 + DOWN*0.5))
+
+        self.wait(2)
+
+        self.play(FadeOut(new_rect1,new_rect2, new_rect3, new_rect4))
+
+        new_title_text = Tex("Ideal Global Segmentation", color = GREEN, font_size = 55)
+        new_title_text.move_to(UP*2.75)
+
+        self.play(ReplacementTransform(title_text, new_title_text))
+
+        self.wait(3)
+
+        self.play(dotted_line1.animate.shift(RIGHT), dotted_line2.animate.shift(RIGHT*2), dotted_line3.animate.shift(LEFT))
+
+        third_title_text = Tex("Local Segmentation: Optimal Approximation", color = BLUE, font_size = 45)
+        third_title_text.move_to(UP*2.75)
+
+        self.play(ReplacementTransform(new_title_text, third_title_text))
+
+        l_rect1 = Rectangle(width=3, height = 5, color=BLUE)
+        l_rect1.set_opacity(0.5)
+
+        l_rect2 = Rectangle(width=2, height = 5, color = RED)
+        l_rect2.set_opacity(0.5)
+
+        l_rect3 = Rectangle(width=2, height = 5, color = GREEN)
+        l_rect3.set_opacity(0.5)
+
+        l_rect4 = Rectangle(width=4, height = 5, color = YELLOW)
+        l_rect4.set_opacity(0.5)
+
+        l_rect1.move_to(LEFT*4.5+DOWN*0.5)
+        l_rect2.move_to(LEFT*2+DOWN*0.5)
+        l_rect3.move_to(DOWN*0.5)
+        l_rect4.move_to(RIGHT*3 + DOWN*0.5)
+
+        self.play(FadeIn(l_rect1))
+        self.play(FadeIn(l_rect2))
+        self.play(FadeIn(l_rect3))
+        self.play(FadeIn(l_rect4))
+
+
+        seg1 = MathTex(r" \approx S_{w}")
+        seg2 = MathTex(r" \approx S_{x}")
+        seg3 = MathTex(r" \approx S_{y}")
+        seg4 = MathTex(r" \approx S_{z}")
+
+        seg1.move_to(l_rect1.get_center())
+        seg2.move_to(l_rect2.get_center())
+        seg3.move_to(l_rect3.get_center())
+        seg4.move_to(l_rect4.get_center())
+
+        self.play(Write(seg1))
+        self.play(Write(seg2))
+        self.play(Write(seg3))
+        self.play(Write(seg4))
+
+        self.wait(3)
+
