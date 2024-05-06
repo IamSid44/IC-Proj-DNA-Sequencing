@@ -11,28 +11,35 @@ class NeuralNetwork(Scene):
         neurons_layer2 = VGroup(*[Circle(radius=neuron_radius, stroke_color=WHITE, stroke_width=3) for _ in range(3)])
         neurons_layer2.arrange(DOWN, buff=0.8)
 
+        neurons_layer3 = VGroup(*[Circle(radius=neuron_radius, stroke_color=WHITE, stroke_width=3) for _ in range(4)])
+        neurons_layer3.arrange(DOWN, buff=0.8)  # Arrange vertically
+
         # Combine layers into a single VGroup for scaling
-        network_layers = VGroup(neurons_layer1, neurons_layer2)
+        network_layers = VGroup(neurons_layer1, neurons_layer2, neurons_layer3)
 
         # Move layers to desired positions
-        network_layers.move_to(RIGHT * 0.5)  # Adjust position as needed
-        neurons_layer1.move_to(neurons_layer1.get_center() - RIGHT * 3)
-        neurons_layer2.move_to(neurons_layer2.get_center() - LEFT * 3)
+        # network_layers.move_to(RIGHT * 0.5)  # Adjust position as needed
+        neurons_layer1.move_to(neurons_layer1.get_center() + LEFT * 3)
+        neurons_layer2.move_to(neurons_layer2.get_center())
+        neurons_layer3.move_to(neurons_layer3.get_center() + RIGHT * 3)
 
         # Define connections as lines with origin at neuron centers
-        connections_l1_l2 = VGroup()
+        connections_l1_l2_l3 = VGroup()
         for i in range(4):
             for j in range(3):
                 start_dot = neurons_layer1[i].get_center()
                 end_dot = neurons_layer2[j].get_center()
-                connection = Line(start_dot, end_dot, color=WHITE, stroke_width=2)
-                connections_l1_l2.add(connection)
+                end_dot2 = neurons_layer3[i].get_center()
+                connection = Line(start_dot, end_dot, color=RED, stroke_width=2)
+                connection2 = Line(end_dot, end_dot2, color=RED, stroke_width=2)
+                connections_l1_l2_l3.add(connection)
+                connections_l1_l2_l3.add(connection2)
 
         # Animate with gradual appearance
         self.play(Create(network_layers, run_time=2, lag_factor=0.8))
-        self.play(Create(connections_l1_l2))
+        self.play(Create(connections_l1_l2_l3, run_time=2, lag_factor=0.8))
 
-        nn = VGroup(network_layers, connections_l1_l2)
+        nn = VGroup(network_layers, connections_l1_l2_l3)
 
         self.play(nn.animate.scale(0.8))
         
@@ -53,7 +60,7 @@ class NeuralNetwork(Scene):
         self.play(Create(bounding_box))
 
         # Create label "basecaller"
-        label = Text("basecaller", font_size=36, color=BLUE)
-        label.move_to(network_layers.get_top() + UP * 0.5)  # Position abov
+        label = Text("Basecaller Neural Network", font_size=36, color=BLUE)
+        label.move_to(network_layers.get_top() + UP * 0.75)  # Position abov
         self.play(FadeIn(label))
         self.wait(2)
