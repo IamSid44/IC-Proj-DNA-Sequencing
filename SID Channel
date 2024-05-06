@@ -1,0 +1,243 @@
+from manim import*
+
+class SIDChannel(Scene):
+    def construct(self):
+
+        title = Tex("Substitution, Insertion, Deletion Channel", color = YELLOW, font_size=50)
+        self.play(Write(title))
+        self.play(title.animate.shift(UP*3))
+
+        equation1 = MathTex(r" \{B_{n}\}_{n=1}^{m+\tau+1} =", r"\{A,T,G,C,A....\}")
+        
+        equation1.set_scale(2)
+        self.play(Write(equation1))
+        new_eqn = MathTex(r"\ \{S_{l}\}_{l=1}^{m}")
+        new_eqn.next_to(equation1[0])
+
+        self.play(ReplacementTransform(equation1[1], new_eqn))
+
+
+        self.play(equation1.animate.move_to(UP*2))
+
+        base = MathTex(r" B_{l+\tau-1} =",r"X", color = BLUE)
+        base.shift(DOWN)
+
+        self.play(Write(base))
+        self.play(base.animate.shift(LEFT*4))
+
+        arrow_upper = Arrow(
+            start=base[1].get_center() + (RIGHT*0.2), 
+            end=base[1].get_center() + (RIGHT * 2+UP*2),
+            buff=0,  # Set buffer to zero to connect directly to the circle
+            stroke_width = 2
+        )
+        
+        # Arrow from the center to the top
+        arrow_sub_upper = Arrow(
+            start=base[1].get_center() + (RIGHT*0.2), 
+            end=base[1].get_center() + (RIGHT * 2+UP*0.75),
+            buff=0,
+            stroke_width = 2
+        )
+        
+        # Arrow from the center to the bottom left
+        arrow_sub_lower = Arrow(
+            start=base[1].get_center() + (RIGHT*0.2), 
+            end=base[1].get_center() + (RIGHT * 2+DOWN*0.75),
+            buff=0,
+            stroke_width = 2
+        )
+
+        arrow_lower = Arrow(
+            start=base[1].get_center() + (RIGHT*0.2), 
+            end=base[1].get_center() + (RIGHT * 2+DOWN*2),
+            buff=0,
+            stroke_width = 2
+        )
+        
+        # Add the circle and arrows to the scene
+        self.play(Create(arrow_upper), run_time = 0.5)
+        self.play(Create(arrow_sub_upper), run_time = 0.5)
+        self.play(Create(arrow_sub_lower), run_time = 0.5)
+        self.play(Create(arrow_lower), run_time = 0.5)
+
+        base_copy = base[1].copy()
+        base_copy.move_to(base[1].get_center())
+        base_copy.generate_target()
+        base_copy.target.next_to(arrow_upper.end)
+
+        self.play(MoveToTarget(base_copy))
+
+        new_base = MathTex("Y", color = RED)
+        new_base.move_to(base_copy.get_center())
+
+        self.play(ReplacementTransform(base_copy,new_base))
+
+        sub_text = Tex("Substitution", color = RED)
+        sub_text.move_to(arrow_upper.end + RIGHT*4)
+
+        self.play(Write(sub_text))
+
+        base_copy2 = base[1].copy()
+        base_copy2.color = GREEN
+        base_copy2.move_to(base[1].get_center())
+        base_copy2.generate_target()
+        base_copy2.target.next_to(arrow_sub_upper.end)
+
+        copy_group = VGroup()
+
+        self.play(MoveToTarget(base_copy2))
+        for i in range(3):
+
+            copy_group.add(base_copy2)
+            base_copy3 = base_copy2.copy()
+            base_copy3.move_to(base_copy2.get_center() + RIGHT*0.4)
+            self.play(Write(base_copy3), run_time = 0.3)
+            base_copy2 = base_copy3
+
+        ins_text = Tex("Insertion", color = GREEN)
+        ins_text.move_to(arrow_sub_upper.end+ RIGHT*4)
+        self.play(Write(ins_text))
+
+        del_text = Tex("(Empty)")
+        del_text.next_to(arrow_sub_lower.end)
+        self.play(FadeIn(del_text))
+
+        del_text2 = Tex("Deletion")
+        del_text2.move_to(arrow_sub_lower.end + RIGHT*4)
+        self.play(Write(del_text2))
+
+        base_copy4 = base[1].copy()
+        base_copy4.move_to(base[1].get_center())
+        base_copy4.generate_target()
+        base_copy4.target.next_to(arrow_lower.end)
+
+        self.play(MoveToTarget(base_copy4))
+
+        no_err_text = Tex("No Error", color = BLUE)
+        no_err_text.move_to(arrow_lower.end + RIGHT*4)
+        self.play(Write(no_err_text))
+
+        self.wait(1)
+
+        self.play(FadeOut(base,arrow_upper,arrow_sub_upper,arrow_sub_lower,arrow_lower))
+        self.play(FadeOut(new_base, base_copy,base_copy2,base_copy3,base_copy4, del_text, copy_group))
+
+        self.wait(1)
+
+        tGroup = VGroup(sub_text,ins_text,del_text2,no_err_text)
+
+        self.play(tGroup.animate.shift(LEFT*6))
+
+        rep_sub_text = MathTex(r"P(E_{l} = Substitution\ |\ S_{l-1} =", r"s', E_{l-1} = e')", color = RED)
+        rep_sub_text.move_to(sub_text.get_center() + RIGHT*2)
+
+        rep_ins_text = MathTex(r"P(E_{l} = Insertion\ |\ S_{l-1} =", r"s', E_{l-1} = e')", color = GREEN)
+        rep_ins_text.move_to(ins_text.get_center() + RIGHT*2)
+
+        rep_del_text = MathTex(r"P(E_{l} = Deletion\ |\ S_{l-1} =", r"s', E_{l-1} = e')", color = WHITE)
+        rep_del_text.move_to(del_text2.get_center() + RIGHT*2)
+
+        rep_no_err_text = MathTex(r"P(E_{l} = No\ Error\ |\ S_{l-1} =", r"s', E_{l-1} = e')", color = BLUE)
+        rep_no_err_text.move_to(no_err_text.get_center() + RIGHT*2)
+
+        self.play(ReplacementTransform(sub_text, rep_sub_text))
+        self.play(ReplacementTransform(ins_text, rep_ins_text))
+        self.play(ReplacementTransform(del_text2, rep_del_text))
+        self.play(ReplacementTransform(no_err_text, rep_no_err_text))
+
+        self.wait(2)
+
+        equality1 = MathTex(r"= 0.25")
+        equality1.next_to(rep_sub_text)
+
+        equality2 = MathTex(r"= 0.25")
+        equality2.next_to(rep_ins_text)
+
+        equality3 = MathTex(r"= 0.25")
+        equality3.next_to(rep_del_text)
+
+        equality4 = MathTex(r"= 0.25")
+        equality4.next_to(rep_no_err_text)
+
+        self.play(Write(equality1))
+        self.play(Write(equality2))
+        self.play(Write(equality3))
+        self.play(Write(equality4))
+
+        self.wait(2)
+
+        rep_eq1 = MathTex(r" = 0.5")
+        rep_eq1.move_to(equality1.get_center())
+
+        rep_eq2 = MathTex(r" = 0.2")
+        rep_eq2.move_to(equality2.get_center())
+
+        rep_eq3 = MathTex(r" = 0.2")
+        rep_eq3.move_to(equality3.get_center())
+
+        rep_eq4 = MathTex(r" = 0.1")
+        rep_eq4.move_to(equality4.get_center())
+
+        # b1a1 = MathTex(r"A", font_size = 34)
+        # b1a2 = MathTex(r"A", font_size = 34)
+        # b1a3 = MathTex(r"A", font_size = 34)
+        # b1a4 = MathTex(r"A", font_size = 34)
+
+        # b1a1.move_to(rep_sub_text[1][0:1].get_center())
+        # b1a2.move_to(rep_ins_text[1][0:1].get_center())
+        # b1a3.move_to(rep_del_text[1][0:1].get_center())
+        # b1a4.move_to(rep_no_err_text[1][0:1].get_center())
+
+        # b1b1 = MathTex(r"Sub", font_size = 30)
+        # b1b2 = MathTex(r"Sub", font_size = 30)
+        # b1b3 = MathTex(r"Sub", font_size = 30)
+        # b1b4 = MathTex(r"Sub", font_size = 30)
+
+        # b1b1.move_to(rep_sub_text[1][8:9].get_center())
+        # b1b2.move_to(rep_ins_text[1][8:9].get_center())
+        # b1b3.move_to(rep_del_text[1][8:9].get_center())
+        # b1b4.move_to(rep_no_err_text[1][8:9].get_center())
+
+        # self.play(ReplacementTransform(rep_sub_text[1][0:2], b1a1),ReplacementTransform(rep_sub_text[1][8:10], b1b1),ReplacementTransform(equality1, rep_eq1))
+        # self.play(ReplacementTransform(rep_ins_text[1][0:2], b1a2),ReplacementTransform(rep_ins_text[1][8:10], b1b2),ReplacementTransform(equality2, rep_eq2))
+        # self.play(ReplacementTransform(rep_del_text[1][0:2], b1a3),ReplacementTransform(rep_del_text[1][8:10], b1b3),ReplacementTransform(equality3, rep_eq3))
+        # self.play(ReplacementTransform(rep_no_err_text[1][0:2], b1a4),ReplacementTransform(rep_no_err_text[1][8:10], b1b4),ReplacementTransform(equality4, rep_eq4))
+
+        self.play(ReplacementTransform(equality1, rep_eq1),ReplacementTransform(equality2, rep_eq2),ReplacementTransform(equality3, rep_eq3), ReplacementTransform(equality4, rep_eq4) )
+        
+        rep_eq1a = MathTex(r" = 0.35")
+        rep_eq1a.move_to(rep_eq1.get_center())
+
+        rep_eq2a = MathTex(r" = 0.14")
+        rep_eq2a.move_to(rep_eq2.get_center())
+
+        rep_eq3a = MathTex(r" = 0.39")
+        rep_eq3a.move_to(rep_eq3.get_center())
+
+        rep_eq4a = MathTex(r" = 0.08")
+        rep_eq4a.move_to(rep_eq4.get_center())
+
+        self.play(ReplacementTransform(rep_eq1, rep_eq1a),ReplacementTransform(rep_eq2, rep_eq2a),ReplacementTransform(rep_eq3, rep_eq3a), ReplacementTransform( rep_eq4, rep_eq4a) )
+
+        rep_eq1b = MathTex(r" = 0.69")
+        rep_eq1b.move_to(rep_eq1a.get_center())
+
+        rep_eq2b = MathTex(r" = 0.11")
+        rep_eq2b.move_to(rep_eq2a.get_center())
+
+        rep_eq3b = MathTex(r" = 0")
+        rep_eq3b.move_to(rep_eq3a.get_center())
+
+        rep_eq4b = MathTex(r" = 0.2")
+        rep_eq4b.move_to(rep_eq4a.get_center())
+
+        self.play(ReplacementTransform(rep_eq1a, rep_eq1b),ReplacementTransform(rep_eq2a, rep_eq2b),ReplacementTransform(rep_eq3a, rep_eq3b), ReplacementTransform( rep_eq4a, rep_eq4b) )
+
+
+
+        self.wait(3)
+        
+
+
+
