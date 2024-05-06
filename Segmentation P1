@@ -1,0 +1,155 @@
+from manim import*
+
+class DecodingEqns(Scene):
+    def construct(self):
+
+        title = Tex(r"Finding Segmentations", color = YELLOW, font_size = 72)
+        title.move_to(UP*3)
+
+        self.play(Write(title))
+
+        stext = MathTex(r"S_{1}^{m}", color = RED)
+        ttext = MathTex(r"T_{1}^{m}", color = GREEN)
+        ytext = MathTex(r"Y_{1}^{T_{m}}", color = BLUE)
+
+        stext.move_to(LEFT*5 + UP*1)
+        ttext.move_to(LEFT*5 + DOWN)
+        ytext.move_to(LEFT*5 + DOWN*3)
+
+        self.play(Write(stext), Write(ttext),Write(ytext))
+
+        arrow_upper = Arrow(
+            start = stext.get_center() + (RIGHT*0.5), 
+            end= stext.get_center() + (RIGHT*1.5),
+            buff=0,  
+            stroke_width = 2
+        )
+
+        arrow_mid = Arrow(
+            start = ttext.get_center() + (RIGHT*0.5), 
+            end= ttext.get_center() + (RIGHT*1.5),
+            buff=0,  
+            stroke_width = 2
+        )
+
+        arrow_lower = Arrow(
+            start = ytext.get_center() + (RIGHT*0.5 + DOWN*0.1), 
+            end= ytext.get_center() + (RIGHT*1.5 + DOWN*0.1),
+            buff=0,  
+            stroke_width = 2
+        )
+
+        self.play(Create(arrow_upper),Create(arrow_mid),Create(arrow_lower))
+
+        sdef = MathTex(r"\text{The estimated m-input state sequence}", color = RED, font_size = 40)
+        tdef = MathTex(r"\text{Set\ of\ m\ segments}", color = GREEN, font_size = 40)
+        ydef = MathTex(r"\text{Observations made using segments } T_{1},T_{2},....T_{m}", color = BLUE, font_size = 40)
+
+        sdef.next_to(arrow_upper.end)
+        tdef.next_to(arrow_mid.end)
+        ydef.next_to(arrow_lower.end)
+
+        self.play(Write(sdef))
+        self.play(Write(tdef))
+        self.play(Write(ydef))
+
+        self.wait(2)
+
+        s = VGroup(stext,arrow_upper,sdef)
+        t = VGroup(ttext,arrow_mid,tdef)
+        y = VGroup(ytext,arrow_lower,ydef)
+
+        self.play(s.animate.shift(UP))
+        self.play(t.animate.shift(UP*2))
+        self.play(y.animate.shift(UP*3))
+
+        # Talk about how the segmentation determines the observations which determines the probabilities of states
+
+        b_text = Text("By optimizing segmentation:", font_size = 26)
+        b_text.move_to(DOWN*2 + LEFT*3.8)
+
+        p_exp = MathTex(r"P(S_{1}^{m},T_{1}^{m}, Y_{1}^{T_{m}})", font_size = 40)
+        p_exp2 = MathTex(r"P(S_{1}^{m},Y_{1}^{T_{m}})", font_size = 40)
+        p_exp.next_to(b_text)
+
+        m_arrow = Arrow(
+
+            start = p_exp.get_center() + (RIGHT*0.5), 
+            end= p_exp.get_center() + (RIGHT*2.5),
+            buff=0,  
+            stroke_width = 2,
+
+        )
+
+        m_arrow.next_to(p_exp)
+        m_text = Text("Marginalization", color = PINK, font_size = 20)
+
+        m_text.move_to(m_arrow.get_center() + UP*0.5)
+        p_exp2.next_to(m_arrow.end + RIGHT)
+
+        self.play(Write(b_text))
+        self.play(Write(p_exp))
+        self.play(Create(m_arrow), Write(m_text))
+
+        self.play(Write(p_exp2))
+
+        rectangle = Rectangle(width = 13.5, height = 2, color = YELLOW)
+        rectangle.move_to(DOWN*2)
+
+        self.play(Create(rectangle))
+
+        self.wait(2)
+
+        b_group = VGroup(b_text,m_arrow,m_text,rectangle,p_exp,p_exp2)
+
+        self.play(FadeOut(s,t,y))
+        self.play(FadeOut(b_group))
+
+        l_text = MathTex(r"\text{We notate the segmentation likelihood }L \text{ as:}", font_size = 40)
+        l_text.move_to(UP*2 + LEFT*2)
+
+        self.play(Write(l_text))
+
+        l_lhs = MathTex(r"L(y_{1}^{t_{m}},s_{1}^{m}|t_{1}^{m})", font_size = 40)
+        lhs_copy = l_lhs.copy()
+        lhs_copy.color = PINK
+        
+        
+        l_rhs = MathTex(r"=\ P(Y_{1}^{T_{m}} = y_{1}^{t_{m}}, S_{1}^{m} = s_{1}^{m}|T_{1}^{m} = t_{1}^{m})", font_size = 40)
+
+        l_lhs.move_to(LEFT*4 + UP)
+        lhs_copy.move_to(l_lhs.get_center())
+        l_rhs.next_to(l_lhs)
+
+        self.play(Write(l_lhs), Write(l_rhs))
+
+        l_info = MathTex(r"\text{Summing over all segmentations with }",r"P(T_{1}^{m} = t_{1}^{m})",r":", font_size = 40)
+        info_copy = l_info[1].copy()
+        info_copy.color = ORANGE
+        l_info.move_to(LEFT*1.2)
+        info_copy.move_to(l_info.get_center())
+
+        self.play(Write(l_info))
+
+        new_lhs = MathTex(r"P(Y_{1}^{T_{m}} = y_{1}^{t_{m}}, S_{1}^{m} = s_{1}^{m})", font_size = 40, color = BLUE)
+        sig = MathTex(r"= ", r"\sum_{t_{1}^{m}}", font_size = 40)
+        sig[1].color = YELLOW
+
+        new_lhs.move_to(LEFT*4 + DOWN*2)
+        sig.next_to(new_lhs)
+        sig.shift(DOWN*0.25)
+        self.play(Write(new_lhs), Write(sig))
+
+        
+        lhs_copy.generate_target()
+        lhs_copy.target.move_to(sig.get_center() + RIGHT*2 + UP*0.25)
+
+        self.play(MoveToTarget(lhs_copy))
+
+        info_copy.generate_target()
+        info_copy.target.move_to(lhs_copy.get_center() + RIGHT*2.6 + DOWN*0.05)
+
+        self.play(MoveToTarget(info_copy))
+
+
+        self.wait(2)
