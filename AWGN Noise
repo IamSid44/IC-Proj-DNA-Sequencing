@@ -24,8 +24,6 @@ class GaussianDistribution(Scene):
             x_range=[mu - 3 * sigma, mu + 3 * sigma, 1],
             y_range=[0, 0.5, 0.1],
             axis_config={'tip_shape': StealthTip, 'include_tip': True},
-            # x_axis_config={"label": "$x$", "include_numbers": True},
-            # y_axis_config={"label": "$f(x)$", "include_numbers": True}
         )
         
 
@@ -73,13 +71,20 @@ class GaussianDistribution(Scene):
         )
 
         # title to the graph
-        top_text = Text("Gaussian Distribution").to_corner(UP + LEFT)
+        top_text = Text("AWGN Distribution",color= YELLOW).to_corner(UP + LEFT)
         self.play(Write(top_text))
 
-        # equation animation
-        equation = MathTex(r"f(x) = \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}").move_to(plot_group.get_corner(UP + RIGHT)).shift(DOWN*1).scale(1)
-        self.play(Write(equation))
+        # # underline to the title
+        # underline = Underline(top_text, buff=0.05)
 
-# Create the scene object and play it
-        # scene = GaussianDistribution()
-        # scene.render()
+        # equation animation
+        equation = MathTex(r"f(x) = \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}").move_to(plot_group.get_corner(UP + RIGHT*1.5)).shift(DOWN*0.4).scale(1)
+        self.play(Write(equation))
+        
+        eq = MathTex(r"Y_{t} = f(Z_{t})+ N_{t}").next_to(equation, DOWN*1.2)
+
+        self.play(Write(eq))
+
+        eqn = MathTex(r"N_{t} \sim \mathcal{N}(0,\sigma^{2})").next_to(eq, DOWN*1.2)
+        self.play(Write(eqn))
+
