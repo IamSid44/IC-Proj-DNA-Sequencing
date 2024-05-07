@@ -1,0 +1,119 @@
+from manim import*
+
+class DTWScene(Scene):
+    def construct(self):
+
+        title = MathTex(r"\text{How can we approximate } d(y_{1}^{t_{m}}, s_{1}^{m}) \text{ ?} ")
+        self.play(Write(title))
+        self.wait(2)
+
+        new_title = Tex("DTW Distance", color = YELLOW)
+        self.play(ReplacementTransform(title,new_title))
+
+        self.play(new_title.animate.shift(UP*3))
+
+        exp = Tex("The Dynamic Time Warping Algorithm:", font_size = 50)
+        exp.move_to(UP*2 + LEFT)
+
+        self.play(Write(exp))
+
+        
+        bullet1 = Text("• Computes distance between signals", color = BLUE, font_size = 26, t2c={'•': WHITE})  # Color the bullet
+        bullet2 = Text("• Warps to minimize alignment cost", color = ORANGE, font_size=26, t2c={'•': WHITE})  # Color the bullet
+
+        bullet1.move_to(LEFT*2 + UP*1)
+        bullet2.move_to(LEFT*2.25 + UP*0.5)
+
+        self.play(Write(bullet1))
+        self.play(Write(bullet2))
+
+        y_exp = MathTex(r"\text{Channel Observations }",r"\mathbf{y}\ =\ y_{1}^{t_{m}} ", color = RED, font_size = 40)
+        x_exp = MathTex(r"\text{Levels }",r"\mathbf{x}\ =\ (f(s_{l}))_{l=1}^m", color = GREEN, font_size = 40)
+
+        y_copy1 = y_exp[1][0].copy()
+        x_copy1 = x_exp[1][0].copy()
+
+        y_copy2 = y_exp[1][0].copy()
+        x_copy2 = x_exp[1][0].copy()
+        
+        y_exp.move_to(DOWN*0.5)
+        x_exp.move_to(DOWN)
+
+        y_copy1.move_to(y_exp[1][0].get_center())
+
+        x_copy1.move_to(x_exp[1][0].get_center())
+
+        y_copy2.move_to(y_exp[1][0].get_center())
+
+        x_copy2.move_to(x_exp[1][0].get_center())
+
+        self.play(Write(y_exp))
+        self.play(Write(x_exp))
+
+        self.wait(2)
+
+        DTW_exp = MathTex(r"d_{DTW}(\ ,\ ) = \underset{\psi,\phi}{min} \mid\mid \psi(\ ) - \phi(\ ) \mid\mid^{2}", color = PURPLE, font_size = 54)
+        DTW_exp.move_to(DOWN*2)
+
+        self.play(Write(DTW_exp))
+
+        y_copy1.generate_target()
+        y_copy1.target.move_to(DTW_exp[0][4].get_center() + RIGHT*0.2 + DOWN*0.075)
+
+        x_copy1.generate_target()
+        x_copy1.target.move_to(DTW_exp[0][6].get_center() + LEFT*0.2 + DOWN* 0.05)
+
+        y_copy2.generate_target()
+        y_copy2.target.move_to(DTW_exp[0][17].get_center() + RIGHT*0.2 + DOWN*0.05)
+
+        x_copy2.generate_target()
+        x_copy2.target.move_to(DTW_exp[0][22].get_center() + LEFT*0.2 + DOWN* 0.05)
+
+        self.play(MoveToTarget(y_copy1), MoveToTarget(x_copy1))
+        self.play(MoveToTarget(y_copy2), MoveToTarget(x_copy2))
+
+        rect = Rectangle(width = 10, height = 1, color = YELLOW).scale(1.2)
+        rect.move_to(DOWN*2)
+
+        self.play(Create(rect))
+
+        warp_text = MathTex(r"\text{where }",r"\psi,\phi", r"\text{ are warping functions that use sample duplications/deletions}", font_size = 40)
+        warp_text.move_to(DOWN*3.25)
+        warp_text[1].color = YELLOW
+
+        self.play(Write(warp_text))
+
+        self.wait(2)
+
+        self.play(FadeOut(bullet1, bullet2))
+        self.play(FadeOut(x_exp,y_exp))
+        self.play(FadeOut(DTW_exp,x_copy1,y_copy1, x_copy2,y_copy2, rect))
+        self.play(FadeOut(warp_text))
+
+        self.wait(2)
+
+        new_sub = Tex(r"Properties of DTW:", font_size = 50, color = BLUE)
+        new_sub.move_to(exp.get_center() + LEFT*3)
+
+        self.play(ReplacementTransform(exp,new_sub))
+
+        self.wait(1)
+
+        text1 = MathTex(r"1)\ d_{DTW}(x, x) = 0.", font_size = 34)
+        text2 = MathTex(r"2)\ \text{If }  x \neq y, \text{then} \ d_{DTW}(x, y) \geq 0.", font_size = 34)
+        text3 = MathTex(r"3)\ d_{DTW}(x,y) = d_{DTW} (y, x).", font_size = 34)
+        text4 = MathTex(r"\text{4) The triangle inequality does not hold.}", font_size = 34)
+
+        text1.move_to(LEFT*3.5 + UP)
+        text2.move_to(LEFT*2.45)
+        text3.move_to(LEFT*2.75 + DOWN)
+        text4.move_to(DOWN*2 + LEFT*1.9)
+
+        self.play(Write(text1))
+        self.play(Write(text2))
+        self.play(Write(text3))
+        self.play(Write(text4))
+
+        self.wait(1)
+
+
