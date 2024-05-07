@@ -1,0 +1,81 @@
+from manim import*
+import numpy as np
+
+class equation(Scene):
+    def construct(self):
+
+        title = Tex("Segmentation Algorithms", font_size = 72, color = YELLOW)
+        title.move_to(UP*3)
+
+        self.play(Write(title))
+
+        self.wait(1)
+
+        subtext = Tex("Global Segmentation", color = RED, font_size = 46)
+        subtext.move_to(LEFT*3 + UP*2)
+
+        subtext_N = Tex("Expensive Process!", color = BLUE, font_size = 46)
+
+        self.play(Write(subtext))
+
+        m_arrow = Arrow(
+
+            start = subtext.get_center() + (RIGHT*2.5), 
+            end =  subtext.get_center() + (RIGHT*3.5),
+            buff=0,  
+            stroke_width = 2,
+
+        )
+
+        self.play(Create(m_arrow))
+        subtext_N.next_to(m_arrow.end)
+
+        self.play(Write(subtext_N))
+
+        self.wait(2)
+
+        itr_text = MathTex(r"\text{Thus, we choose the segmentation}\ \mathbf{t}_{s_{1}^{m}}^{*} \text{ that achieves:}")
+        itr_text.move_to(UP)
+
+        self.play(Write(itr_text))
+
+        q1 = MathTex(r"d(y_{1}^{t_{m}}, s_{1}^{t_{m}}) = \underset{t_{1}^m}{min}  \ [-log\ L (y_{1}^{t_{m}}, s_{1}^{t_{m}} \mid t_{1}^{t_{m}}) \mathbb{P} (T_{1}^m =t_{1}^m )]", color = GREEN)
+        #q1.move_to(DOWN)
+        self.play(Write(q1))
+
+        map_text = MathTex(r"\text{The MAP state segmentation pair } (\mathbf{s}^{*},\mathbf{t}^{*}) \text{ is such that:}", font_size = 40)
+        map_text.move_to(DOWN*2)
+
+        state = MathTex(r"(\mathbf{s}^{*},\mathbf{t}^{*})", color = BLUE, font_size = 40)
+        state.move_to(DOWN + LEFT*2.5)
+
+        b_arrow = Arrow(
+
+            start = state.get_center() + RIGHT,
+            end =  state.get_center() + (RIGHT*2),
+            buff=0,  
+            stroke_width = 2,
+
+        )
+
+        min_exp = MathTex(r"min_{s_{1}^{m}}d(y_{1}^{t_{m}}, s_{1}^{m})", color = PURPLE, font_size = 40)
+        min_exp.move_to(b_arrow.end + RIGHT*2)
+
+        self.play(Write(state), Create(b_arrow), Write(min_exp))
+
+        rect = Rectangle(width=7, height = 1, color=MAROON)
+        rect.move_to(b_arrow.get_center() + RIGHT)
+
+        self.play(Create(rect))
+
+        self.wait(1)
+
+        self.play(Indicate(state))
+
+        b_exp = Tex("Computed using GVA for Markovian inputs", color = ORANGE, font_size = 40)
+        b_exp.move_to(DOWN*2)
+
+        self.play(Write(b_exp))
+
+        self.wait(1)
+
