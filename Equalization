@@ -100,11 +100,25 @@ class LineGraphExample(Scene):
         # Display the axes and dotted lines in the scene
         self.play(Create(axes), run_time = 3)
         self.play(Write(x_label),Write(y_label))
+
+        x_tick_label1 = MathTex(r"S_{1}").next_to(axes.x_axis.n2p(1), DOWN)  # Label for x-axis tick at x=1
+        x_tick_label2 = MathTex(r"S_{2}").next_to(axes.x_axis.n2p(2), DOWN)  # Label for x-axis tick at x=1
+        x_tick_label3 = MathTex(r"S_{3}").next_to(axes.x_axis.n2p(3), DOWN)  # Label for x-axis tick at x=1
+        x_tick_label4 = MathTex(r"S_{4}").next_to(axes.x_axis.n2p(4), DOWN)  # Label for x-axis tick at x=1
+
+        y_tick_label1 = MathTex(r"L_{1}").next_to(axes.y_axis.n2p(1), LEFT)  # Label for y-axis tick at y=2
+        y_tick_label2 = MathTex(r"L_{2}").next_to(axes.y_axis.n2p(2), LEFT)
+        y_tick_label3 = MathTex(r"L_{3}").next_to(axes.y_axis.n2p(3), LEFT)
+        y_tick_label4 = MathTex(r"L_{4}").next_to(axes.y_axis.n2p(4), LEFT)
+
+        self.play(Create(x_tick_label1),Create(x_tick_label2),Create(x_tick_label3),Create(x_tick_label4))
+        self.play(Create(y_tick_label1),Create(y_tick_label2),Create(y_tick_label3),Create(y_tick_label4))
+
         self.play(Create(dotted_lines), run_time = 2)
 
         # Pause to view the result
-        Omega = MathTex(r"\Omega", r":\ original\ space")
-        Omega.move_to(UP*3)
+        Omega = MathTex(r"\Omega", r":\ original\ space", color = YELLOW)
+        Omega.move_to(UP*3 + LEFT*0.5)
 
         self.wait(1)
 
@@ -130,10 +144,11 @@ class LineGraphExample(Scene):
         self.wait(1)
 
         spacetext = Omega[1]
-        rep_text = Tex(r"\ x\ \{No Err,Del\} = $\Omega$' ")
+        rep_text = Tex(r"\ x\ \{No Err,Del\} = $\Omega$' ", color = YELLOW)
 
         rep_text.next_to(Omega[0], RIGHT)
         self.play(ReplacementTransform(spacetext, rep_text))
 
         self.wait(3)
+
 
