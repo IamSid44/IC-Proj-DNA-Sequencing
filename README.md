@@ -10,6 +10,8 @@ Research paper is uploaded
 
 Presentation - https://docs.google.com/presentation/d/1LafC6rRQXFON3neu7BiA2Ep2W1T1T9h6CREq89ibuhA/edit?usp=sharing
 
+Drive - https://drive.google.com/drive/folders/1fh21Y8OmVzk9G_Tz9ck3F-FlcM2ZBpE-?usp=sharing
+
 Overview - https://www.youtube.com/watch?v=ZuB3yB7QWCk
 
 Nanopore Sequencer - https://nanoporetech.com/platform/technology
