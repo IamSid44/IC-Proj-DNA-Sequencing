@@ -92,10 +92,20 @@ class DNAtoLetters(ThreeDScene):
 
         # Labels for the images
         Ade = Text("Adenine", font_size=24)
+        Ade[0].color = RED
+        Ade[0].font_size = 34
+        
         Thy = Text("Thymine", font_size=24)
-        Gua = Text("Guanine", font_size=24)
-        Cyt = Text("Cytosine", font_size=24)
+        Thy[0].color = YELLOW
+        Thy[0].font_size = 34
 
+        Gua = Text("Guanine", font_size=24)
+        Gua[0].color = BLUE
+        Gua[0].font_size = 34
+
+        Cyt = Text("Cytosine", font_size=24)
+        Cyt[0].color = GREEN
+        Cyt[0].font_size = 34
         # Position the images in the corners
         Ade_Image.to_corner(UP+ LEFT*3)
         Thy_Image.to_corner(DOWN*2.5 + LEFT*3)
@@ -118,6 +128,9 @@ class DNAtoLetters(ThreeDScene):
         self.play(FadeOut(newGroup), FadeIn(imgGroup))     
 
         self.wait(3)
+        
+
+        
         
 
         
